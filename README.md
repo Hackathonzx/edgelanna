@@ -1,100 +1,83 @@
-# CrossChainLiquidityAggregator
+# Cross-Chain Skill Tokenization and Verification
 
-# Project Overview
+# Overview
 
-The CrossChainLiquidityAggregator aims to provide a seamless liquidity aggregation solution across multiple blockchain networks, optimizing decentralized finance (DeFi) lending rates and offering access to various liquidity pools. The aggregator uses Chainlink for routing and Pyth Stable Price Sources Oracle for determining interest rates, ensuring real-time and reliable data for decentralized credit scoring and rate optimization.
+This project integrates SkillToken and CrossChainSkillVerification contracts to enable decentralized skill verification and token minting. The skill tokens are minted on one blockchain, and with the help of Chainlink oracles, the tokens can be verified and transferred across multiple blockchains. World ID integration ensures secure and private validation of skills.
 
 # Features
-1. Cross-Chain Liquidity Aggregation: Aggregates liquidity from different blockchain networks, improving access to the best lending rates.
-2. Real-Time Interest Rate Optimization: Uses the Pyth Stable Price Sources Oracle to dynamically fetch interest rates.
-3. Decentralized Credit Scoring: Implements a decentralized mechanism for calculating user credit scores based on transaction history and lending behavior.
-4. Chainlink Router: For cross-chain routing and seamless interactions between different blockchain networks.
+1. Skill Token Minting: Mint unique skill tokens using verified proofs from World ID.
+2. Cross-Chain Transfers: Transfer tokens across different blockchains with Oracle/Relayer verification.
+3. World ID Integration: Securely verify skills with the World ID system.
+4. Reputation and Endorsements: Visualize skill endorsements and user reputation.
 
-# Tech Stack
-- Smart Contracts: Solidity for contract development.
-- Chainlink: For cross-chain communication and fetching interest rate data from Chainlink’s decentralized oracle network.
-- Pyth Oracle: For fetching stable price data to calculate optimal lending rates.
-- Cross-Chain Integration: Chainlink CCIP (Cross-Chain Interoperability Protocol) for seamless asset transfers across different blockchain ecosystems.
+# Smart Contracts
+1. SkillToken.sol
 
-# Dependencies
-- Solidity version: 0.8.0
-- Chainlink Oracles
-- Pyth Oracle for stable price feeds
-- Chainlink Router
+ERC721-compliant token representing a skill endorsement.
 
-# Setup Instructions
-**Clone the Repository**
-- git clone https://github.com/Hackathonzx/chainflowapps.git
-- cd CrossChainLiquidityAggregator
+**Functions:**
 
-**Install Dependencies**
+- mintSkillToken: Mint a skill token after World ID proof verification.
+- setTokenURI: Set a URI for a token that describes the skill.
+- tokenURI: Return the metadata URI for the token.
 
-Ensure you have the required packages installed, including dependencies for Chainlink and Pyth Oracle sdk.
-- npm install
+2. CrossChainSkillVerification.sol
 
-# Deployment
+Verifies skill tokens across blockchains using Chainlink oracles.
 
-Deploy the smart contracts using Hardhat
+**Functions:**
+- verifyAndTransferSkillToken: Verify the proof and trigger cross-chain token transfer.
+- requestCrossChainTransfer: Request a cross-chain transfer for verified tokens.
+- fulfillCrossChainTransfer: Handle the result of a cross-chain transfer request.
 
-Ensure the proper Chainlink and Pyth addresses are configured in the deployment script.
+# Installation
 
-Deploy the CrossChainLiquidityAggregator.sol contract.
-
-- npx hardhat run ignition/modules/deploy.js --network UnichainSepoliaTestnet
-
-Here is the deployed contract address:
-- CrossChainLiquidityAggregator deployed to: 0x359451AC3C73827A7653C0Ab7D30243844a55447
-
-# Verified contract
+Clone this repository:
 
 
+git clone <repo_url>
+cd <repo_folder>
 
-# Contract Details
-1. CrossChainLiquidityAggregator.sol: The main contract that aggregates liquidity from multiple DeFi protocols and optimizes lending rates.
-2. InterestRateOracle: Fetches current interest rates using Pyth Stable Price Sources Oracle.
-3. Chainlink Router: Facilitates cross-chain interactions and asset transfers.
-
-# Oracle Integration
-1. Pyth Stable Price Sources Oracle:
-This Oracle provides stable price feeds, which are used to fetch the interestRateOracleAddress for dynamic rate calculations.
-2. Chainlink Router:
-The router facilitates seamless liquidity aggregation and cross-chain transactions. It ensures that liquidity from multiple chains is aggregated effectively for users.
+Install dependencies:
 
 
-# How It Works
-1. Liquidity Aggregation: Users can access the best rates by aggregating liquidity from various blockchain networks. The contract interacts with different DeFi platforms, fetching the highest available interest rates.
+npm install
 
-2. Interest Rate Optimization: By using Pyth Stable Price Sources Oracle, the contract fetches real-time stable prices to determine optimal lending rates, ensuring competitive rates for users.
+Compile contracts:
 
-3. Cross-Chain Transfers: The Chainlink CCIP enables cross-chain interoperability, allowing users to move assets seamlessly between supported blockchain networks.
+npx hardhat compile
+Deploy contracts: Modify the deploy.js script with the necessary parameters and run:
 
-4. Decentralized Credit Scoring: Based on user transaction history, the contract generates a credit score, allowing for better access to liquidity at competitive rates.
+npx hardhat run scripts/deploy.js --network <network_name>
 
-# How to Use
+# Usage
 
-1. Lending: Provide liquidity to the aggregator and choose the best lending rates.
-2. Borrowing: Borrow assets across different blockchain networks, taking advantage of optimal rates fetched by the aggregator.
-3. Cross-Chain Transfers: Transfer assets between different blockchain networks using the Chainlink Router.
+Mint a Skill Token:
 
-# Example Usage
+Call mintSkillToken with valid proof, root, and nullifier hash.
+Verify and Transfer Skill Tokens:
 
-Example usage of CrossChainLiquidityAggregator smart contract
+Use verifyAndTransferSkillToken for cross-chain verification and transfer.
+UI Interaction:
 
-const aggregator = await CrossChainLiquidityAggregator.deployed();
+Interact with the smart contracts via frontend to mint, verify, and transfer tokens.
+Use Web3 or Ethers.js to interact with smart contracts on your frontend.
 
-await aggregator.addLiquidity(amount, tokenAddress);
+Tests
+Run tests using Hardhat:
 
-await aggregator.borrow(amount, targetBlockchain);
+npx hardhat test
+This will execute all contract unit tests and ensure that the token minting and cross-chain verification processes work correctly.
 
-# Testing
-Loan Issuance Test: Checks that loans are issued with correct details.
+# Security
+1. World ID Proof Verification: Ensures secure identity and skill verification using cryptographic proofs.
+2. Chainlink Oracle Integration: Provides secure and decentralized oracles for cross-chain transfers.
 
-Loan Repayment Test: Calculates repayment amount and tests the repayment process.
+# Contributing
 
-Liquidity Management Test: Tests adding and removing liquidity, ensuring pool updates as expected.
-
-# Contribution
-Feel free to fork the repository and submit pull requests. Contributions are welcome, especially for improving the credit scoring system and cross-chain integration.
+Feel free to fork the repository, submit pull requests, or open issues for suggestions and improvements.
 
 # License
+
 This project is licensed under the MIT License.
+
