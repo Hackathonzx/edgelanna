@@ -1,26 +1,44 @@
 const hre = require("hardhat");
+const { ethers } = require("hardhat");
 
 async function main() {
-    // Get the contract factory
-    const CrossChainLiquidityAggregator = await hre.ethers.getContractFactory("CrossChainLiquidityAggregator");
+  // Set up constructor parameters for SkillToken
+  const name = "SkillToken";
+  const symbol = "SKT";
+  const appId = "your-app-id";           // Update with actual App ID
+  const actionId = "your-action-id";      // Update with actual Action ID
+  const worldIdAddress = "0x...";         // Replace with IWorldID contract address
+  
+  // Deploy SkillToken contract
+  const SkillToken = await ethers.getContractFactory("SkillToken");
+  const skillToken = await SkillToken.deploy(name, symbol, worldIdAddress, appId, actionId);
 
-    // Define the addresses for Chainlink CCIP Router and Interest Rate Oracle
-    const chainlinkCCIPRouterAddress = "0x0BF3dE8c5D3e8A2B34D2BEeB17ABfCeBaf363A59"; // chainlink CCIP router address
-    const interestRateOracleAddress = "0x2880aB155794e7179c9eE2e38200202908C17B43"; // Pyth Stable price sources oracle address
+  await skillToken.waitForDeployment();
+  console.log("SkillToken deployed to:", await skillToken.getAddress());
 
-    // Deploy the contract
-    const aggregator = await CrossChainLiquidityAggregator.deploy(chainlinkCCIPRouterAddress, interestRateOracleAddress);
+  // Set up constructor parameters for CrossChainSkillVerification
+  const skillTokenAddress = skillToken.address;
+  const oracle = process.env.ORACLE_ADDRESS;;                 // Replace with Chainlink Oracle address
+  const jobId = ethers.utils.formatBytes32String(process.env.JOB_ID);
+  const fee = ethers.utils.parseUnits("0.1", "ether"); // Fee for Chainlink request
+  const linkToken = process.env.LINK_TOKEN_ADDRESS;      // LINK token address on the network
 
-    // Wait for the deployment to complete
-    await aggregator.waitForDeployment();
+  // Deploy CrossChainSkillVerification contract
+  const CrossChainSkillVerification = await ethers.getContractFactory("CrossChainSkillVerification");
+  const crossChainSkillVerification = await CrossChainSkillVerification.deploy(
+    skillTokenAddress,
+    worldIdAddress,
+    oracle,
+    jobId,
+    fee,
+    linkTokenAddress
+  );
 
-    console.log("CrossChainLiquidityAggregator deployed to:", await aggregator.getAddress());
+  await crossChainSkillVerification.waitForDeployment();
+  console.log("CrossChainSkillVerification deployed to:", await crossChainSkillVerification.getAddress());
 }
 
-// Run the deployment script
-main()
-    .then(() => process.exit(0))
-    .catch((error) => {
-        console.error(error);
-        process.exit(1);
-    });
+main().catch((error) => {
+  console.error(error);
+  process.exitCode = 1;
+});
