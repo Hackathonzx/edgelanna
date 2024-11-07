@@ -35,8 +35,9 @@ Verifies skill tokens across blockchains using Chainlink oracles.
 Clone this repository:
 
 
-git clone <repo_url>
-cd <repo_folder>
+git clone https://github.com/Hackathonzx/edgelanna.git
+
+cd edgelanna
 
 Install dependencies:
 
@@ -48,7 +49,11 @@ Compile contracts:
 npx hardhat compile
 Deploy contracts: Modify the deploy.js script with the necessary parameters and run:
 
-npx hardhat run scripts/deploy.js --network <network_name>
+npx hardhat run ignition/modules/deploy.js --network WorldChainSepoliaTestnet
+
+SkillToken deployed to: 0xe34c86A03F17E29F77beeE7c898Adae4dD578006
+
+CrossChainSkillVerification deployed to: 0x7c9D4E3769FD085566de1DB20E5703D3Ec50d37f
 
 # Usage
 
