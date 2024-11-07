@@ -22,7 +22,7 @@
     "@typechain/hardhat": "^9.1.0",
     "@types/chai": "^4.3.19",
     "@types/mocha": "^10.0.7",
-    "ethers": "^6.13.2",
+    "ethers": "^6.13.4",
     "hardhat": "^2.22.10",
     "hardhat-gas-reporter": "^1.0.10",
     "solidity-coverage": "^0.8.13",
