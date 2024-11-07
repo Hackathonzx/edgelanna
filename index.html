@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edgelanna</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/web3modal@1.9.0/dist/index.js"></script>
+    <script src="https://unpkg.com/ethers@5.2.umd/dist/ethers.umd.min.js"></script>
+    <style>
+        body {
+            background-color: #0b0f1a;
+            font-family: 'Arial', sans-serif;
+        }
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 20px;
+            color: #b0b3b8;
+            position: relative;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .card-header {
+            font-size: 24px;
+            font-weight: bold;
+            color: #fff;
+        }
+        .card-subtext {
+            font-size: 14px;
+            color: #6c757d;
+        }
+        .card-button {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 10px 20px;
+            color: #b0b3b8;
+            font-size: 14px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        .card-icon {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 24px;
+            color: #b0b3b8;
+        }
+        .highlight {
+            background: linear-gradient(90deg, rgba(0, 200, 255, 0.5), rgba(0, 200, 255, 0.1));
+            border-radius: 20px;
+            padding: 20px;
+            color: #fff;
+            box-shadow: 0 4px 30px rgba(0, 200, 255, 0.2);
+        }
+        .connect-wallet {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+        }
+    </style>
+</head>
+<body class="p-10">
+    <!-- Connect Wallet Button -->
+    <div class="connect-wallet">
+        <button onclick="connectWallet()" class="card-button">Connect Wallet</button>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-10 mt-20">
+        <!-- Project Overview Card -->
+        <div class="card col-span-1">
+            <div class="card-header">Project Overview</div>
+            <div class="mt-5 card-subtext">Edgelanna Cross-Chain Skill Tokenization & Verification</div>
+            <div class="mt-5">
+                <p class="text-sm">
+                    Enabling verifiable, interoperable skill credentials, reducing verification costs and dependency on intermediaries.
+                </p>
+            </div>
+            <i class="fas fa-project-diagram card-icon"></i>
+        </div>
+        <!-- Solution Overview Card -->
+        <div class="card col-span-1 highlight">
+            <div class="card-header">Solution Overview</div>
+            <div class="mt-5">
+                <p class="text-sm">
+                    The platform uses IBC to tokenize skills as verifiable, cross-chain tokens, simplifying credential management across chains.
+                </p>
+            </div>
+            <i class="fas fa-lightbulb card-icon"></i>
+        </div>
+        <!-- Audience & Impact Card -->
+        <div class="card col-span-1">
+            <div class="card-header">Audience & Impact</div>
+            <div class="mt-5">
+                <p class="text-sm">
+                    Freelancers, job seekers, professionals, and organizations benefit from reduced onboarding time, costs, and simplified verification.
+                </p>
+            </div>
+            <i class="fas fa-users card-icon"></i>
+        </div>
+        <!-- Technical Architecture Card -->
+        <div class="card col-span-1">
+            <div class="card-header">Technical Architecture</div>
+            <div class="mt-5">
+                <p class="text-sm">
+                    Utilizes smart contracts, IBC modules, oracle integration, and optional zk-SNARKs for privacy-preserving verification.
+                </p>
+            </div>
+            <i class="fas fa-cogs card-icon"></i>
+        </div>
+        <!-- User Journey Card -->
+        <div class="card col-span-1 md:col-span-2 highlight">
+            <div class="card-header">User Journey</div>
+            <div class="mt-5">
+                <ul class="list-disc ml-5 text-sm">
+                    <li>Users submit skill proof.</li>
+                    <li>Verifiers issue IBC-compatible SkillTokens.</li>
+                    <li>Tokens become verifiable across chains.</li>
+                    <li>Users share SkillTokens with employers.</li>
+                    <li>Employers endorse tokens, building trust.</li>
+                </ul>
+            </div>
+        </div>
+        <!-- Unique Selling Points Card -->
+        <div class="card col-span-1">
+            <div class="card-header">Unique Selling Points</div>
+            <div class="mt-5">
+                <ul class="list-disc ml-5 text-sm">
+                    <li>Decentralized Verification</li>
+                    <li>Cross-Chain Access</li>
+                    <li>Privacy & Cost Efficiency</li>
+                </ul>
+            </div>
+            <i class="fas fa-star card-icon"></i>
+        </div>
+        <!-- Roadmap Card -->
+        <div class="card col-span-1">
+            <div class="card-header">Roadmap</div>
+            <div class="mt-5">
+                <ul class="list-disc ml-5 text-sm">
+                    <li>Phase 1: MVP with basic SkillToken issuance</li>
+                    <li>Phase 2: Expand to more chains</li>
+                    <li>Phase 3: Introduce trust scoring</li>
+                    <li>Phase 4: Partnerships with institutions</li>
+                </ul>
+            </div>
+            <i class="fas fa-road card-icon"></i>
+        </div>
+        <!-- Connect Wallet Overlay -->
+        <div id="wallet-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center">
+            <div class="bg-white rounded-lg p-5 w-80">
+                <h2 class="text-xl font-bold mb-5">Select Wallet</h2>
+                <button onclick="connectMetamask()" class="w-full mb-3 py-2 bg-gray-200 rounded">MetaMask</button>
+                <button onclick="connectTrustWallet()" class="w-full mb-3 py-2 bg-gray-200 rounded">Trust Wallet</button>
+                <button onclick="connectWalletConnect()" class="w-full mb-3 py-2 bg-gray-200 rounded">WalletConnect</button>
+                <button onclick="closeModal()" class="w-full mt-5 py-2 bg-red-500 text-white rounded">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function connectWallet() {
+            document.getElementById('wallet-modal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('wallet-modal').classList.add('hidden');
+        }
+
+        async function connectMetamask() {
+            if (typeof window.ethereum !== 'undefined') {
+                try {
+                    await ethereum.request({ method: 'eth_requestAccounts' });
+                    closeModal();
+                    alert('Connected with MetaMask!');
+                } catch (error) {
+                    console.error(error);
+                }
+            } else {
+                alert('MetaMask is not installed.');
+            }
+        }
+
+        function connectTrustWallet() {
+            // Trust Wallet connection logic
+            closeModal();
+            alert('Connected with Trust Wallet!');
+        }
+
+        function connectWalletConnect() {
+            // WalletConnect connection logic
+            closeModal();
+            alert('Connected with WalletConnect!');
+        }
+    </script>
+</body>
+</html>
