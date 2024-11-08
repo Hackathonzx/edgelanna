@@ -13,7 +13,7 @@ This project integrates SkillToken and CrossChainSkillVerification contracts to 
 # Smart Contracts
 1. SkillToken.sol
 
-ERC721-compliant token representing a skill endorsement.
+  ERC721-compliant token representing a skill endorsement.
 
 **Functions:**
 
@@ -23,7 +23,7 @@ ERC721-compliant token representing a skill endorsement.
 
 2. CrossChainSkillVerification.sol
 
-Verifies skill tokens across blockchains using Chainlink oracles.
+  Verifies skill tokens across blockchains using Chainlink oracles.
 
 **Functions:**
 - verifyAndTransferSkillToken: Verify the proof and trigger cross-chain token transfer.
@@ -34,19 +34,20 @@ Verifies skill tokens across blockchains using Chainlink oracles.
 
 Clone this repository:
 
-
 git clone https://github.com/Hackathonzx/edgelanna.git
 
 cd edgelanna
 
 Install dependencies:
 
-
 npm install
 
 Compile contracts:
 
 npx hardhat compile
+
+# Deployment
+
 Deploy contracts: Modify the deploy.js script with the necessary parameters and run:
 
 npx hardhat run ignition/modules/deploy.js --network WorldChainSepoliaTestnet
@@ -57,18 +58,21 @@ CrossChainSkillVerification deployed to: 0x7c9D4E3769FD085566de1DB20E5703D3Ec50d
 
 # Usage
 
-Mint a Skill Token:
+1. Mint a Skill Token:
 
 Call mintSkillToken with valid proof, root, and nullifier hash.
-Verify and Transfer Skill Tokens:
+
+2. Verify and Transfer Skill Tokens:
 
 Use verifyAndTransferSkillToken for cross-chain verification and transfer.
-UI Interaction:
+
+3. UI Interaction:
 
 Interact with the smart contracts via frontend to mint, verify, and transfer tokens.
+
 Use Web3 or Ethers.js to interact with smart contracts on your frontend.
 
-Tests
+# Tests
 Run tests using Hardhat:
 
 npx hardhat test
